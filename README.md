@@ -6,6 +6,7 @@ Simulates data management and store front for a small business. Lab 06 of Code F
 Author: Joshua Frazer
 
 Links and Resources
-1. https://github.com/codefellows/seattle-201d87
-2. https://meyerweb.com/eric/tools/css/reset/
+1. https://visme.co/blog/website-color-schemes/
+2. https://fonts.google.com/
+
 Reflections and Comments
