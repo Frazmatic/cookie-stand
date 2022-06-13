@@ -13,11 +13,13 @@ let store = {
   },
   displaySales: function(){
     let time = 6;
+    const body = document.getElementById('salesBody');
     const section = document.createElement('section');
     const list = document.createElement('ul');
     for (let item of this.hourlySales){
       let listItem = document.createElement('li');
       listItem.appendChild(document.createTextNode(`${this.timeConvert(time)}: ${item}`));
+      listItem.classList.add('data');
       list.appendChild(listItem);
       time++;
     }
@@ -27,7 +29,8 @@ let store = {
 
     section.appendChild(document.createTextNode(`${this.storeName}\n`));
     section.appendChild(list);
-    document.body.appendChild(section);
+    section.classList.add('highlight');
+    body.appendChild(section);
   },
   timeConvert: function(milTime){
     if (milTime <= 12){
