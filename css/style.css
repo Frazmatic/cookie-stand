@@ -4,6 +4,15 @@ body {
     color: #bbc1c5;
 }
 
+main {
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+main h1 {
+    text-align: center;
+}
+
 .highlight {
     font-family: 'Cinzel', serif;
     color: #86C232;
@@ -14,13 +23,42 @@ body {
     color: white;
 }
 
-body.sales section {
+#salesBody section {
     background-color: #40474d;
     padding: 1em;
     margin: 2%;
     border-radius: 1em;
 }
 
-table {
-    
+header img{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
+
+#homepageBody nav ul{
+    display: flex;
+    justify-content: center;
+}
+
+#homepageBody nav li {
+    padding: 1%;
+    margin: 1%;
+}
+
+table {
+    background-color: #2f3438;
+}
+
+a:link {
+    color:lightblue;
+}
+
+a:visited {
+    color:violet;
+}
+
+a:hover {
+    background-color: #40474d;
+}
+
