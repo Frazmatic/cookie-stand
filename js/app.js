@@ -24,8 +24,23 @@ function Store(storeName, minHourlyCusts, maxHourlyCusts, avgSalesPerCust, start
   this.avgSale = avgSalesPerCust;
   this.openTime = startTime;
   this.closeTime = endTime;
+  this.dailyStaffing = createDailySalesObject(this.openTime, this.closeTime);
   this.dailySales = createDailySalesObject(this.openTime, this.closeTime);
 }
+
+Store.prototype.calculateHourlyStaffing = function(sales){
+  //errors on the side of higher staffing; i.e. never let an employee handle more than 20 per hour
+  let customers = Math.ceil(sales/this.avgSale);
+  let minStaffing = 2;
+  let recommendedStaffing = Math.ceil(customers/20);
+  if (recommendedStaffing > minStaffing){
+    return recommendedStaffing;
+  }
+  else {
+    return minStaffing;
+  }
+
+};
 
 Store.prototype.randomHourlySales = function(){
   let customers = Math.round(Math.random() * (this.hourlyCusts.max - this.hourlyCusts.min) + this.hourlyCusts.min);
@@ -35,6 +50,7 @@ Store.prototype.randomHourlySales = function(){
 Store.prototype.addDaySales = function(){
   for(let hour in this.dailySales){
     this.dailySales[hour] = this.randomHourlySales();
+    this.dailyStaffing[hour] = this.calculateHourlyStaffing(this.dailySales[hour]);
   }
 };
 
@@ -85,7 +101,7 @@ Store.prototype.render = function(table){
 //create an object with store names as keys and hourly sales as an array of numbers
 Store.tableDataObjectCreate = function(table){
   let data = {};
-  
+
   //get all rows from table excluding first row which is headers
   for(let i = 1; i < table.rows.length; i++){
     let row = table.rows[i];
@@ -167,6 +183,62 @@ Store.buildTable = function(storesList){
   return table;
 };
 
+Store.buildStaffingTable = function(storesList){
+  let minStart = 24;
+  let maxEnd = 0;
+  for(let store of storesList){
+    if(store.openTime < minStart){
+      minStart = store.openTime;
+    }
+    if(store.closeTime > maxEnd){
+      maxEnd = store.closeTime;
+    }
+  }
+  
+  let table = document.createElement('table');
+  let headerRow = document.createElement('tr');
+  let headerCell = document.createElement('th');
+  headerCell.textContent = 'Store Name';
+  headerRow.appendChild(headerCell);
+
+  let hoursObject = createDailySalesObject(minStart, maxEnd);
+  for(let hour in hoursObject){
+    headerCell = document.createElement('th');
+    headerCell.textContent = hour;
+    headerRow.appendChild(headerCell);
+  }
+
+  table.appendChild(headerRow);
+
+  headerRow = headerRow.cells;
+  let times = [];
+  for(let i = 1; i < headerRow.length; i++){
+    times.push(headerRow[i].textContent);
+  }
+
+  for(let store of storesList){
+    let row = document.createElement('tr');
+    let cell = document.createElement('td');
+    cell.textContent = store.storeName;
+    cell.classList.add('highlight');
+    row.appendChild(cell);
+
+    for(let time of times){
+      cell = document.createElement('td');
+      cell.classList.add('data');
+      if (store.dailyStaffing[time]){
+        cell.textContent = store.dailyStaffing[time];
+      }
+      else {
+        cell.textContent = 0;
+      }
+      row.appendChild(cell);
+    }
+    table.appendChild(row);
+  }
+  return table;
+};
+
 //MAIN: Use the objects and their methods
 
 let storesList =
@@ -182,11 +254,21 @@ for (let store of storesList){
   store.addDaySales();
 }
 
-let table = Store.buildTable(storesList);
-
 let body = document.getElementById('salesBody');
+
+let heading = document.createElement('h2');
+heading.textContent = 'Sales Projections:';
+body.appendChild(heading);
+
+let table = Store.buildTable(storesList);
 body.appendChild(table);
 
+heading = document.createElement('h2');
+heading.textContent = 'Staffing Projections:';
+body.appendChild(heading);
+
+let staffingTable = Store.buildStaffingTable(storesList);
+body.appendChild(staffingTable);
 
 
 
