@@ -13,16 +13,6 @@ main h1 {
     text-align: center;
 }
 
-.highlight {
-    font-family: 'Cinzel', serif;
-    color: #86C232;
-}
-
-.data {
-    font-family: Arial, Helvetica, sans-serif;
-    color: white;
-}
-
 #salesBody section {
     background-color: #40474d;
     padding: 1em;
@@ -62,3 +52,22 @@ a:hover {
     background-color: #40474d;
 }
 
+td, th {
+    border: white 1px dotted;
+    text-align: center;
+    padding-left: 4px;
+    padding-right: 4px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    margin: 1px;
+}
+
+.highlight {
+    font-family: 'Cinzel', serif;
+    color: #86C232;
+}
+
+.data {
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+}
