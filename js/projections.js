@@ -50,7 +50,12 @@ Store.prototype.randomHourlySales = function(curve){
 Store.prototype.addDaySales = function(){
   let i = 0;
   for(let hour in this.dailySales){
-    this.dailySales[hour] = this.randomHourlySales(this.controlCurve[i]);
+    if (this.controlCurve[i]){
+      this.dailySales[hour] = this.randomHourlySales(this.controlCurve[i]);
+    }
+    else {
+      this.dailySales[hour] = this.randomHourlySales(1);
+    }
     i++;
     this.dailyStaffing[hour] = this.calculateHourlyStaffing(this.dailySales[hour]);
   }
@@ -186,6 +191,10 @@ Store.buildTable = function(storesList){
 };
 
 Store.buildStaffingTable = function(storesList){
+  //There is some duplicate code here; mostly stuff that supports stores having different times for different stores.
+  //Could change addDailySales method to add values for all hours; with 0s for hours store is not open
+  //could create a js table object with methods for retreiving or changing contents seperately from header & footer, with another method to return a DOM table
+
   let minStart = 24;
   let maxEnd = 0;
   for(let store of storesList){
@@ -196,7 +205,7 @@ Store.buildStaffingTable = function(storesList){
       maxEnd = store.closeTime;
     }
   }
-  
+
   let table = document.createElement('table');
   let headerRow = document.createElement('tr');
   let headerCell = document.createElement('th');
