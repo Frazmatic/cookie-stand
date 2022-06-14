@@ -26,6 +26,7 @@ function Store(storeName, minHourlyCusts, maxHourlyCusts, avgSalesPerCust, start
   this.closeTime = endTime;
   this.dailyStaffing = createDailySalesObject(this.openTime, this.closeTime);
   this.dailySales = createDailySalesObject(this.openTime, this.closeTime);
+  this.controlCurve = [0.5, 0.75, 1.0, 0.6, 0.8, 1.0, 0.7, 0.4, 0.6, 0.9, 0.7, 0.5, 0.3, 0.4, 0.6];
 }
 
 Store.prototype.calculateHourlyStaffing = function(sales){
@@ -39,17 +40,18 @@ Store.prototype.calculateHourlyStaffing = function(sales){
   else {
     return minStaffing;
   }
-
 };
 
-Store.prototype.randomHourlySales = function(){
-  let customers = Math.round(Math.random() * (this.hourlyCusts.max - this.hourlyCusts.min) + this.hourlyCusts.min);
+Store.prototype.randomHourlySales = function(curve){
+  let customers = Math.round((Math.random() * (this.hourlyCusts.max - this.hourlyCusts.min) + this.hourlyCusts.min) * curve);
   return Math.round(customers * this.avgSale);
 };
 
 Store.prototype.addDaySales = function(){
+  let i = 0;
   for(let hour in this.dailySales){
-    this.dailySales[hour] = this.randomHourlySales();
+    this.dailySales[hour] = this.randomHourlySales(this.controlCurve[i]);
+    i++;
     this.dailyStaffing[hour] = this.calculateHourlyStaffing(this.dailySales[hour]);
   }
 };
@@ -254,21 +256,13 @@ for (let store of storesList){
   store.addDaySales();
 }
 
-let body = document.getElementById('salesBody');
-
-let heading = document.createElement('h2');
-heading.textContent = 'Sales Projections:';
-body.appendChild(heading);
-
+let section = document.getElementById('salesProjections');
 let table = Store.buildTable(storesList);
-body.appendChild(table);
+section.appendChild(table);
 
-heading = document.createElement('h2');
-heading.textContent = 'Staffing Projections:';
-body.appendChild(heading);
-
+section = document.getElementById('staffingProjections');
 let staffingTable = Store.buildStaffingTable(storesList);
-body.appendChild(staffingTable);
+section.appendChild(staffingTable);
 
 
 

@@ -9,8 +9,9 @@ main {
     margin-right: 10%;
 }
 
-main h1 {
+h1, h2 {
     text-align: center;
+    color: white;
 }
 
 #salesBody section {
