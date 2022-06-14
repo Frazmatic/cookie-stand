@@ -33,8 +33,11 @@ let store = {
     body.appendChild(section);
   },
   timeConvert: function(milTime){
-    if (milTime <= 12){
+    if (milTime < 12){
       return `${milTime}am`;
+    }
+    else if (milTime === 12){
+      return `${milTime}pm`;
     }
     else {
       return `${milTime - 12}pm`;
