@@ -19,6 +19,8 @@ h1, h2 {
     padding: 1em;
     margin: 2%;
     border-radius: 1em;
+    display: flex;
+    justify-content: center;
 }
 
 header img{
@@ -39,6 +41,7 @@ header img{
 
 table {
     background-color: #2f3438;
+    width: 90%;
 }
 
 a:link {
@@ -90,4 +93,18 @@ main > section {
     gap: 30px 30px;
     margin-top: 30px;
     margin-bottom: 30px;
+}
+
+
+form{
+    display:flex;
+    flex-direction: column;
+}
+
+form > label {
+    width: 75%;
+}
+
+form > input {
+    width: 50%;
 }

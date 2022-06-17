@@ -19,6 +19,25 @@
         <h2>Staffing Projections</h2>
     </section>
     <a href="index.html">Return to Home Page</a>
+    <hr>
+    <fieldset>
+        <legend>Add a Store</legend>
+        <form id="newStoreForm">
+                <label for="storeName">Enter the store's city:</label>
+                <input type="text" id="storeName" name="storeName" required>
+                <label for="minHourlyCustomers">Enter the minimum number of customers per hour for this location:</label>
+                <input type="number" id="minHourlyCustomers" name="minHourlyCustomers" required>
+                <label for="maxHourlyCustomers">Enter the maximum number of customers per hour for this location:</label>
+                <input type="number" id="maxHourlyCustomers" name="maxHourlyCustomers" required>
+                <label for="avgSalesPerCustomer">Enter the average number of cookies sold per customer:</label>
+                <input type="number" step="0.1" id="avgSalesPerCustomer" name="avgSalesPerCustomer" required>
+                <label for="openingTime">Enter the opening time (24 hour clock, 0-23):</label>
+                <input type="number" id="openingTime" name="openingTime"  value="6">
+                <label for="closingTime">Enter the closing time (24 hour clock, 0-23):</label>
+                <input type="number" id="closingTime" name="closingTime" value="20">
+                <button type="submit">Submit</button>
+        </form>    
+    </fieldset>
 </body>
 <script src="js/projections.js"></script>
 </html>
